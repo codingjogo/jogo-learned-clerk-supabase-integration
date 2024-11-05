@@ -11,7 +11,7 @@ const AdminLayout = ({
     
         <AdminNavbar />
 
-        <main>
+        <main className='container py-6'>
             {children}
         </main>
     </>
