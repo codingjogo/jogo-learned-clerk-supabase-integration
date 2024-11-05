@@ -15,6 +15,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { DataTableColumnHeader } from "@/components/ui/data-table-column-header";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -53,7 +54,9 @@ export const columns: ColumnDef<Product>[] = [
 	},
 	{
 		accessorKey: "name",
-		header: "Name",
+		header: ({ column }) => (
+			<DataTableColumnHeader column={column} title="Name" />
+		  ),
 	},
 	{
 		accessorKey: "category",
