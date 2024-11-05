@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React from "react";
 
 import {
 	ColumnDef,
@@ -23,9 +23,12 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { DataTablePagination } from "./data-table-pagination";
-import { DataTableViewOptions } from './data-table-view-options';
+import { DataTableViewOptions } from "./data-table-view-options";
 
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/ui/input";
+import { Button } from "./button";
+import Link from "next/link";
+import { PlusCircle } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -36,41 +39,51 @@ export function DataTable<TData, TValue>({
 	columns,
 	data,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
+	const [sorting, setSorting] = React.useState<SortingState>([]);
+	const [columnFilters, setColumnFilters] =
+		React.useState<ColumnFiltersState>([]);
 
 	const table = useReactTable({
 		data,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
-    state: {
-      sorting,
-      columnFilters,
-    },
+		getPaginationRowModel: getPaginationRowModel(),
+		onSortingChange: setSorting,
+		getSortedRowModel: getSortedRowModel(),
+		onColumnFiltersChange: setColumnFilters,
+		getFilteredRowModel: getFilteredRowModel(),
+		state: {
+			sorting,
+			columnFilters,
+		},
 	});
 
 	return (
 		<>
-      <div className='flex items-center gap-4'>
-        <DataTableViewOptions table={table} />
-        <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-      </div>
-      </div>
+			<div className="flex items-center gap-4">
+				<DataTableViewOptions table={table} />
+				<div className="flex items-center py-4">
+					<Input
+						placeholder="Filter name..."
+						value={
+							(table
+								.getColumn("name")
+								?.getFilterValue() as string) ?? ""
+						}
+						onChange={(event) =>
+							table
+								.getColumn("name")
+								?.setFilterValue(event.target.value)
+						}
+						className="max-w-sm"
+					/>
+				</div>
+        <Button asChild>
+          <Link href={'/admin/inventory/create'}>
+            <PlusCircle className="w-4 h-4" />Add Product
+          </Link>
+        </Button>
+			</div>
 			<div className="rounded-md border my-4">
 				<Table>
 					<TableHeader>
